@@ -1,0 +1,64 @@
+<%- include('../layout/header', { title: profile_user.username + ' - Profile | Social Network' }) %>
+
+<div class="max-w-4xl mx-auto space-y-6">
+    <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200/80">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+                <% if (profile_user.profile && profile_user.profile.avatar) { %>
+                    <img src="<%= profile_user.profile.avatar %>" alt="<%= profile_user.username %>" class="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-2 border-indigo-100 shadow-sm" />
+                <% } else { %>
+                    <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-indigo-500 flex items-center justify-center text-white text-2xl font-bold shadow-sm">
+                        <%= profile_user.username.slice(0, 1).toUpperCase() %>
+                    </div>
+                <% } %>
+
+                <div>
+                    <h1 class="text-xl sm:text-2xl font-bold text-gray-900">
+                        <%= (profile_user.firstName + ' ' + profile_user.lastName).trim() || profile_user.username %>
+                    </h1>
+                    <p class="text-sm font-medium text-gray-500">@<%= profile_user.username %></p>
+                    <p class="text-xs text-gray-400 mt-1">
+                        Joined <%= new Date(profile_user.dateJoined).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) %>
+                    </p>
+                </div>
+            </div>
+
+            <% if (user && user.id !== profile_user.id) { %>
+                <button type="button" class="js-follow inline-flex items-center justify-center text-sm font-semibold px-5 py-2.5 rounded-xl shadow-xs transition cursor-pointer <%= you_follow ? 'bg-gray-100 hover:bg-gray-200 text-gray-800' : 'bg-indigo-600 hover:bg-indigo-500 text-white' %>" data-username="<%= profile_user.username %>" data-action="<%= you_follow ? 'unfollow' : 'follow' %>" data-url="/profiles/follow/">
+                    <span class="js-follow-wording"><%= you_follow ? 'Unfollow' : 'Follow' %></span>
+                </button>
+            <% } %>
+        </div>
+
+        <div class="flex gap-6 mt-6 pt-4 border-t border-gray-100 text-sm">
+            <div>
+                <a href="/profiles/<%= profile_user.username %>/followers/" class="font-bold text-gray-900 hover:text-indigo-600 transition">
+                    <%= followersCount %> <span class="text-gray-500 font-normal">Followers</span>
+                </a>
+            </div>
+            <div>
+                <a href="/profiles/<%= profile_user.username %>/following/" class="font-bold text-gray-900 hover:text-indigo-600 transition">
+                    <%= followingCount %> <span class="text-gray-500 font-normal">Following</span>
+                </a>
+            </div>
+            <div>
+                <span class="font-bold text-gray-900"><%= userPosts.length %></span>
+                <span class="text-gray-500">Posts</span>
+            </div>
+        </div>
+
+        <% if (profile_user.profile && profile_user.profile.bio) { %>
+            <p class="text-gray-700 mt-4 text-sm leading-relaxed whitespace-pre-line bg-gray-50/50 p-3 rounded-xl border border-gray-100">
+                <%= profile_user.profile.bio %>
+            </p>
+        <% } %>
+    </div>
+
+    <!-- User Posts -->
+    <div>
+        <h2 class="text-xl font-bold mb-4 text-gray-900">Posts</h2>
+        <%- include('../feed/partials/post', { title: 'Posts by @' + profile_user.username, posts: userPosts }) %>
+    </div>
+</div>
+
+<%- include('../layout/footer') %>

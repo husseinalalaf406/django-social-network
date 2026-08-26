@@ -1,0 +1,22 @@
+<div id="comment-<%= comment.id %>" class="comment-item flex items-start gap-2.5">
+    <a href="/profiles/<%= comment.user.username %>/" class="relative shrink-0 block">
+        <% if (comment.user.profile && comment.user.profile.avatar) { %>
+            <img src="<%= comment.user.profile.avatar %>" alt="<%= comment.user.username %>" class="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-full object-cover border border-gray-200/80 shadow-xs" />
+        <% } else { %>
+            <div class="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-full bg-indigo-500 text-white font-bold text-sm flex items-center justify-center shadow-xs">
+                <%= comment.user.username.slice(0, 1).toUpperCase() %>
+            </div>
+        <% } %>
+    </a>
+    <div class="flex flex-col gap-1 flex-1">
+        <div class="bg-gray-100 rounded-2xl px-4 py-2.5">
+            <a href="/profiles/<%= comment.user.username %>/" class="text-sm font-semibold text-gray-900 hover:underline">
+                <%= comment.user.username %>
+            </a>
+            <p class="text-sm text-gray-800"><%= comment.text %></p>
+        </div>
+        <div class="flex items-center gap-3 pl-1 text-xs text-gray-500">
+            <span><%= new Date(comment.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) %></span>
+        </div>
+    </div>
+</div>

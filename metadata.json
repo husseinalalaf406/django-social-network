@@ -1,0 +1,6 @@
+{
+  "name": "Social Network",
+  "description": "A social network web application with feed, posts, comments, likes, notifications, follower management, and profile settings.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

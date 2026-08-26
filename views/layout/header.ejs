@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-gray-100">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Tailwind CSS v4 Browser Compiler -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <title><%= title || 'Social Network' %></title>
+</head>
+
+<body class="bg-gray-100 text-gray-900 flex flex-col min-h-screen antialiased selection:bg-indigo-500 selection:text-white">
+
+<!-- ================= GLASSMORPHISM NAVBAR ================= -->
+<header class="sticky top-0 z-40 bg-gray-900/95 backdrop-blur-md border-b border-white/10 shadow-md">
+    <nav class="max-w-7xl mx-auto w-full px-4 sm:px-6 py-3">
+        <div class="flex items-center justify-between gap-3">
+
+            <!-- ================= LOGO ================= -->
+            <a href="/" class="flex items-center gap-2 text-lg sm:text-xl font-extrabold text-white tracking-tight group shrink-0">
+                <span class="bg-gradient-to-tr from-indigo-500 to-violet-400 text-white p-1.5 rounded-lg group-hover:scale-105 transition-transform duration-200">
+                    <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09 C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5 c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </span>
+                <span>Social<span class="text-indigo-400">Net</span></span>
+            </a>
+
+            <!-- ================= DESKTOP NAVIGATION ================= -->
+            <div class="hidden md:flex items-center gap-1 lg:gap-2">
+                <!-- Home -->
+                <a href="/" class="text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/60 px-3 py-2 rounded-lg transition-colors">
+                    Home
+                </a>
+
+                <% if (user) { %>
+                    <!-- My Following -->
+                    <a href="/My-following/" class="text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/60 px-3 py-2 rounded-lg transition-colors">
+                        My-following
+                    </a>
+
+                    <!-- Notifications -->
+                    <a href="/notifications/" class="relative text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/60 px-3 py-2 rounded-lg transition-colors">
+                        <span class="flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405 A2.032 2.032 0 0118 14.158V11 a6.002 6.002 0 00-4-5.659V5 a2 2 0 10-4 0v.341 C7.67 6.165 6 8.388 6 11v3.159 c0 .538-.214 1.055-.595 1.436L4 17h5 m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                            </svg>
+                            <span>Notifications</span>
+                            <% if (unread_notifications_count > 0) { %>
+                                <span class="absolute -top-1 -right-1 min-w-5 h-5 px-1 flex items-center justify-center rounded-full bg-rose-500 text-white text-[10px] font-bold border-2 border-gray-900">
+                                    <%= unread_notifications_count %>
+                                </span>
+                            <% } %>
+                        </span>
+                    </a>
+
+                    <!-- Settings -->
+                    <a href="/profiles/account/" class="text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/60 px-3 py-2 rounded-lg transition-colors">
+                        Settings
+                    </a>
+
+                    <!-- New Post -->
+                    <button type="button" class="js-toggle-modal text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/60 px-3 py-2 rounded-lg transition-colors cursor-pointer">
+                        New Post
+                    </button>
+
+                    <!-- User Profile Pill -->
+                    <div class="hidden lg:flex items-center gap-2.5 px-3 py-1.5 ml-1 rounded-full bg-gray-800/80 border border-gray-700/60 shadow-inner">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
+                        <span class="text-xs text-gray-300 whitespace-nowrap">
+                            Welcome,
+                            <a href="/profiles/<%= user.username %>/" class="text-white font-semibold hover:text-indigo-300 transition-colors">
+                                <%= user.username %>
+                            </a>
+                        </span>
+                    </div>
+
+                    <!-- Logout -->
+                    <form method="post" action="/accounts/logout/" class="inline">
+                        <button type="submit" class="text-sm font-medium text-gray-400 hover:text-rose-400 hover:bg-rose-500/10 px-3 py-2 rounded-lg transition-colors cursor-pointer">
+                            Logout
+                        </button>
+                    </form>
+                <% } else { %>
+                    <!-- Login -->
+                    <a href="/accounts/login/" class="text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/60 px-3 py-2 rounded-lg transition-colors">
+                        Login
+                    </a>
+
+                    <!-- Sign Up -->
+                    <a href="/accounts/signup/" class="bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold px-4 py-2 rounded-lg shadow-sm transition-all duration-200">
+                        Sign Up
+                    </a>
+                <% } %>
+            </div>
+
+            <!-- ================= MOBILE MENU BUTTON ================= -->
+            <button type="button" id="mobile-menu-button" class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800 transition-colors cursor-pointer" aria-label="Open navigation menu">
+                <svg id="mobile-menu-open-icon" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+                <svg id="mobile-menu-close-icon" class="hidden w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- ================= MOBILE NAVIGATION ================= -->
+        <div id="mobile-menu" class="hidden md:hidden pt-4 mt-3 border-t border-white/10">
+            <div class="flex flex-col gap-1">
+                <a href="/" class="text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/60 px-3 py-3 rounded-lg transition-colors">
+                    Home
+                </a>
+
+                <% if (user) { %>
+                    <a href="/My-following/" class="text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/60 px-3 py-3 rounded-lg transition-colors">
+                        My-following
+                    </a>
+
+                    <a href="/notifications/" class="flex items-center justify-between text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/60 px-3 py-3 rounded-lg transition-colors">
+                        <span class="flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405 A2.032 2.032 0 0118 14.158V11 a6.002 6.002 0 00-4-5.659V5 a2 2 0 10-4 0v.341 C7.67 6.165 6 8.388 6 11v3.159 c0 .538-.214 1.055-.595 1.436L4 17h5 m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                            </svg>
+                            <span>Notifications</span>
+                        </span>
+                        <% if (unread_notifications_count > 0) { %>
+                            <span class="min-w-5 h-5 px-1 flex items-center justify-center rounded-full bg-rose-500 text-white text-[10px] font-bold">
+                                <%= unread_notifications_count %>
+                            </span>
+                        <% } %>
+                    </a>
+
+                    <a href="/profiles/account/" class="text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/60 px-3 py-3 rounded-lg transition-colors">
+                        Settings
+                    </a>
+
+                    <a href="/profiles/<%= user.username %>/" class="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-gray-800/60 transition-colors">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
+                        <span class="text-sm text-gray-300">
+                            Welcome, <span class="text-white font-semibold"><%= user.username %></span>
+                        </span>
+                    </a>
+
+                    <button type="button" class="js-toggle-modal w-full text-left text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/60 px-3 py-3 rounded-lg transition-colors cursor-pointer">
+                        New Post
+                    </button>
+
+                    <form method="post" action="/accounts/logout/" class="w-full">
+                        <button type="submit" class="w-full text-left text-sm font-medium text-gray-400 hover:text-rose-400 hover:bg-rose-500/10 px-3 py-3 rounded-lg transition-colors cursor-pointer">
+                            Logout
+                        </button>
+                    </form>
+                <% } else { %>
+                    <a href="/accounts/login/" class="text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/60 px-3 py-3 rounded-lg transition-colors">
+                        Login
+                    </a>
+                    <a href="/accounts/signup/" class="text-center bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold px-4 py-3 rounded-lg shadow-sm transition-all duration-200 mt-1">
+                        Sign Up
+                    </a>
+                <% } %>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<!-- ================= FLASH MESSAGES ================= -->
+<% if (locals.messages && messages.length > 0) { %>
+    <div class="max-w-5xl mx-auto w-full px-4 sm:px-6 pt-4 sm:pt-6 space-y-2">
+        <% messages.forEach(function(msg) { %>
+            <div class="p-3 sm:p-4 rounded-xl border flex items-start sm:items-center justify-between gap-3 shadow-xs <%= msg.type === 'error' ? 'bg-rose-50 border-rose-200 text-rose-800' : 'bg-emerald-50 border-emerald-200 text-emerald-800' %>">
+                <div class="flex items-start sm:items-center gap-3 min-w-0">
+                    <% if (msg.type === 'error') { %>
+                        <svg class="w-5 h-5 text-rose-500 shrink-0 mt-0.5 sm:mt-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01 M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    <% } else { %>
+                        <svg class="w-5 h-5 text-emerald-500 shrink-0 mt-0.5 sm:mt-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4 m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    <% } %>
+                    <span class="text-sm font-medium break-words"><%= msg.text %></span>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+<% } %>
+
+<!-- ================= MAIN CONTENT CONTAINER ================= -->
+<main class="max-w-5xl mx-auto w-full py-5 sm:py-8 px-4 sm:px-6 flex-grow min-w-0">
