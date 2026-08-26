@@ -1,0 +1,336 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Account Settings | Social Network
+{% endblock %}
+
+{% block content %}
+
+<div class="w-full max-w-3xl mx-auto space-y-6 sm:space-y-8">
+
+    <!-- ================= PAGE HEADER ================= -->
+    <div class="px-1">
+        <h1 class="text-xl sm:text-2xl font-bold text-gray-900">
+            Account Settings
+        </h1>
+
+        <p class="mt-1 text-sm text-gray-500 leading-relaxed">
+            Manage your personal information, profile and password.
+        </p>
+    </div>
+
+
+    <!-- ================= ACCOUNT INFORMATION ================= -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+
+        <!-- Card Header -->
+        <div class="p-4 sm:p-6 border-b border-gray-100">
+
+            <h2 class="text-base sm:text-lg font-semibold text-gray-900">
+                Personal Information
+            </h2>
+
+            <p class="text-sm text-gray-500 mt-1 leading-relaxed">
+                Update your username and personal information.
+            </p>
+
+        </div>
+
+
+        <!-- Account Form -->
+        <form
+            method="POST"
+            enctype="multipart/form-data"
+            class="p-4 sm:p-6 space-y-5 sm:space-y-6"
+        >
+
+            {% csrf_token %}
+
+
+            <!-- ================= USERNAME ================= -->
+            <div>
+
+                <label
+                    for="{{ account_form.username.id_for_label }}"
+                    class="block text-sm font-medium text-gray-700 mb-2"
+                >
+                    Username
+                </label>
+
+                {{ account_form.username }}
+
+                {% if account_form.username.errors %}
+                    <div class="mt-1 text-sm text-red-600">
+                        {{ account_form.username.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <!-- ================= FIRST NAME ================= -->
+            <div>
+
+                <label
+                    for="{{ account_form.first_name.id_for_label }}"
+                    class="block text-sm font-medium text-gray-700 mb-2"
+                >
+                    First Name
+                </label>
+
+                {{ account_form.first_name }}
+
+                {% if account_form.first_name.errors %}
+                    <div class="mt-1 text-sm text-red-600">
+                        {{ account_form.first_name.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <!-- ================= LAST NAME ================= -->
+            <div>
+
+                <label
+                    for="{{ account_form.last_name.id_for_label }}"
+                    class="block text-sm font-medium text-gray-700 mb-2"
+                >
+                    Last Name
+                </label>
+
+                {{ account_form.last_name }}
+
+                {% if account_form.last_name.errors %}
+                    <div class="mt-1 text-sm text-red-600">
+                        {{ account_form.last_name.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <!-- ================= AVATAR ================= -->
+            <div>
+
+                <label
+                    for="{{ profile_form.avatar.id_for_label }}"
+                    class="block text-sm font-medium text-gray-700 mb-2"
+                >
+                    Profile Picture
+                </label>
+
+
+                <!-- Current Avatar -->
+                {% if request.user.profile.avatar %}
+
+                    <div class="flex items-center gap-4 mb-4">
+
+                        <img
+                            src="{{ request.user.profile.avatar.url }}"
+                            alt="Profile picture"
+                            class="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover border border-gray-200 shadow-sm"
+                        >
+
+                        <div>
+                            <p class="text-sm font-medium text-gray-900">
+                                Current profile picture
+                            </p>
+
+                            <p class="text-xs text-gray-500 mt-1">
+                                Upload a new image below to replace it.
+                            </p>
+                        </div>
+
+                    </div>
+
+                {% endif %}
+
+
+                <!-- Upload -->
+                <div class="w-full">
+                    {{ profile_form.avatar }}
+                </div>
+
+
+                {% if profile_form.avatar.errors %}
+                    <div class="mt-1 text-sm text-red-600">
+                        {{ profile_form.avatar.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <!-- ================= BIO ================= -->
+            <div>
+
+                <label
+                    for="{{ profile_form.bio.id_for_label }}"
+                    class="block text-sm font-medium text-gray-700 mb-2"
+                >
+                    Bio
+                </label>
+
+                {{ profile_form.bio }}
+
+                {% if profile_form.bio.errors %}
+                    <div class="mt-1 text-sm text-red-600">
+                        {{ profile_form.bio.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <!-- ================= SAVE BUTTON ================= -->
+            <div class="pt-1 sm:pt-2">
+
+                <button
+                    type="submit"
+                    name="account_submit"
+                    class="
+                        w-full sm:w-auto
+                        px-6 py-2.5
+                        rounded-lg
+                        bg-gray-900
+                        text-white
+                        text-sm
+                        font-semibold
+                        hover:bg-gray-800
+                        active:bg-gray-950
+                        transition
+                        cursor-pointer
+                    "
+                >
+                    Save Changes
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- ================= PASSWORD ================= -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+
+        <!-- Card Header -->
+        <div class="p-4 sm:p-6 border-b border-gray-100">
+
+            <h2 class="text-base sm:text-lg font-semibold text-gray-900">
+                Change Password
+            </h2>
+
+            <p class="text-sm text-gray-500 mt-1 leading-relaxed">
+                Update your password to keep your account secure.
+            </p>
+
+        </div>
+
+
+        <!-- Password Form -->
+        <form
+            method="POST"
+            class="p-4 sm:p-6 space-y-5 sm:space-y-6"
+        >
+
+            {% csrf_token %}
+
+
+            <!-- ================= CURRENT PASSWORD ================= -->
+            <div>
+
+                <label
+                    for="{{ password_form.old_password.id_for_label }}"
+                    class="block text-sm font-medium text-gray-700 mb-2"
+                >
+                    Current Password
+                </label>
+
+                {{ password_form.old_password }}
+
+                {% if password_form.old_password.errors %}
+                    <div class="mt-1 text-sm text-red-600">
+                        {{ password_form.old_password.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <!-- ================= NEW PASSWORD ================= -->
+            <div>
+
+                <label
+                    for="{{ password_form.new_password1.id_for_label }}"
+                    class="block text-sm font-medium text-gray-700 mb-2"
+                >
+                    New Password
+                </label>
+
+                {{ password_form.new_password1 }}
+
+                {% if password_form.new_password1.errors %}
+                    <div class="mt-1 text-sm text-red-600">
+                        {{ password_form.new_password1.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <!-- ================= CONFIRM PASSWORD ================= -->
+            <div>
+
+                <label
+                    for="{{ password_form.new_password2.id_for_label }}"
+                    class="block text-sm font-medium text-gray-700 mb-2"
+                >
+                    Confirm New Password
+                </label>
+
+                {{ password_form.new_password2 }}
+
+                {% if password_form.new_password2.errors %}
+                    <div class="mt-1 text-sm text-red-600">
+                        {{ password_form.new_password2.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <!-- ================= PASSWORD BUTTON ================= -->
+            <div class="pt-1 sm:pt-2">
+
+                <button
+                    type="submit"
+                    name="password_submit"
+                    class="
+                        w-full sm:w-auto
+                        px-6 py-2.5
+                        rounded-lg
+                        bg-gray-900
+                        text-white
+                        text-sm
+                        font-semibold
+                        hover:bg-gray-800
+                        active:bg-gray-950
+                        transition
+                        cursor-pointer
+                    "
+                >
+                    Change Password
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

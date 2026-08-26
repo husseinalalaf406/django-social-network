@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Followers | Social Network
+{% endblock %}
+
+{% block content %}
+
+<div class="max-w-2xl mx-auto">
+
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold text-gray-900">
+            Followers
+        </h1>
+
+        <p class="text-sm text-gray-500 mt-1">
+            People who follow this account
+        </p>
+    </div>
+
+
+    <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+
+        {% for follower in followers %}
+
+            <div class="flex items-center justify-between p-4 border-b border-gray-100 last:border-0">
+
+                <a
+                    href="{% url 'profiles:detail' username=follower.followed_by.username %}"
+                    class="flex items-center gap-3"
+                >
+
+                    {% if follower.followed_by.profile.avatar %}
+
+                        <img
+                            src="{{ follower.followed_by.profile.avatar.url }}"
+                            class="w-12 h-12 rounded-full object-cover"
+                            alt="{{ follower.followed_by.username }}"
+                        >
+
+                    {% else %}
+
+                        <div class="w-12 h-12 rounded-full bg-indigo-500 text-white flex items-center justify-center font-bold">
+                            {{ follower.followed_by.username|slice:":1"|upper }}
+                        </div>
+
+                    {% endif %}
+
+
+                    <div>
+                        <p class="font-semibold text-gray-900">
+                            {{ follower.followed_by.username }}
+                        </p>
+
+                        {% if follower.followed_by.get_full_name %}
+                            <p class="text-sm text-gray-500">
+                                {{ follower.followed_by.get_full_name }}
+                            </p>
+                        {% endif %}
+                    </div>
+
+                </a>
+
+            </div>
+
+        {% empty %}
+
+            <div class="p-8 text-center text-gray-500">
+                No followers yet.
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}
