@@ -50,7 +50,7 @@
                             class="w-9 h-9 sm:w-10 sm:h-10
                                    shrink-0
                                    rounded-full
-                                   bg-gradient-to-tr from-indigo-500 to-violet-500
+                                   bg-secondary
                                    text-white font-bold text-sm
                                    flex items-center justify-center shadow-xs"
                         >
@@ -72,7 +72,7 @@
                                 href="{% url 'profiles:detail' username=post.author.username %}"
                                 class="font-bold text-gray-900
                                        text-sm
-                                       hover:text-indigo-600
+                                       hover:text-secondary
                                        transition-colors"
                             >
                                 {% if post.author %}
@@ -187,9 +187,9 @@
            transition
            cursor-pointer
            {% if post.id in liked_posts %}
-               text-rose-600 bg-rose-50
+               text-danger bg-red-50 dark:bg-red-950/30
            {% else %}
-               text-gray-600 hover:bg-rose-50 hover:text-rose-600
+               text-secondary hover:bg-red-50 hover:text-danger dark:text-gray-300 dark:hover:bg-red-950/30 dark:hover:text-red-300
            {% endif %}"
 >
     <svg
@@ -227,8 +227,11 @@
            px-2 sm:px-3
            py-2
            rounded-lg
-           hover:bg-indigo-50
-           hover:text-indigo-600
+           text-secondary
+           hover:bg-primary/15
+           hover:text-secondary
+           dark:text-primary
+           dark:hover:bg-primary/15
            transition
            cursor-pointer"
     data-post-id="{{ post.id }}"
@@ -439,8 +442,8 @@
                                mx-auto
                                mb-3
                                rounded-full
-                               bg-indigo-50
-                               text-indigo-600
+                               bg-primary/15
+                               text-secondary dark:text-primary
                                flex items-center justify-center"
                     >
 
@@ -505,15 +508,16 @@
                                text-sm
                                focus:outline-none
                                focus:ring-2
-                               focus:ring-indigo-500
-                               focus:border-indigo-500"
+                               focus:ring-primary
+                               focus:border-primary
+                               dark:bg-secondary/70 dark:text-white"
                     >
 
                     <button
                         type="submit"
-                        class="bg-indigo-600
-                               hover:bg-indigo-500
-                               text-white
+                        class="bg-primary
+                               hover:bg-primary-hover
+                               text-secondary
                                px-4 py-2
                                rounded-lg
                                text-sm
@@ -554,8 +558,8 @@
 
             <div
                 class="w-12 h-12
-                       bg-indigo-50
-                       text-indigo-600
+                       bg-primary/15
+                       text-secondary dark:text-primary
                        rounded-full
                        flex items-center justify-center
                        mx-auto mb-3"
@@ -589,9 +593,9 @@
                 <button
                     type="button"
                     onclick="document.getElementById('{{ new_post_modal_id }}').showModal()"
-                    class="bg-indigo-600
-                           hover:bg-indigo-500
-                           text-white
+                    class="bg-primary
+                           hover:bg-primary-hover
+                           text-secondary
                            text-xs
                            font-semibold
                            px-4 py-2
@@ -608,9 +612,9 @@
                 <a
                     href="{% url 'account_login' %}"
                     class="inline-block
-                           bg-indigo-600
-                           hover:bg-indigo-500
-                           text-white
+                           bg-primary
+                           hover:bg-primary-hover
+                           text-secondary
                            text-xs
                            font-semibold
                            px-4 py-2

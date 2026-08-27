@@ -289,11 +289,11 @@ document.addEventListener("click", async function (event) {
         // ================= UPDATE COLORS =================
 
         if (data.liked) {
-            likeButton.classList.add("text-rose-600", "bg-rose-50");
-            likeButton.classList.remove("text-gray-600");
+            likeButton.classList.add("text-danger", "bg-red-50");
+            likeButton.classList.remove("text-secondary");
         } else {
-            likeButton.classList.remove("text-rose-600", "bg-rose-50");
-            likeButton.classList.add("text-gray-600");
+            likeButton.classList.remove("text-danger", "bg-red-50");
+            likeButton.classList.add("text-secondary");
         }
 
     } catch (error) {

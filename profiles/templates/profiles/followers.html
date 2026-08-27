@@ -19,7 +19,7 @@
     </div>
 
 
-    <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+    <div class="bg-white dark:bg-secondary/80 rounded-2xl border border-gray-200 overflow-hidden">
 
         {% for follower in followers %}
 
@@ -40,7 +40,7 @@
 
                     {% else %}
 
-                        <div class="w-12 h-12 rounded-full bg-indigo-500 text-white flex items-center justify-center font-bold">
+                        <div class="w-12 h-12 rounded-full bg-primary text-secondary flex items-center justify-center font-bold">
                             {{ follower.followed_by.username|slice:":1"|upper }}
                         </div>
 
