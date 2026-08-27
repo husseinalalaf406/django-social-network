@@ -61,4 +61,12 @@ console.log("FOLLOW SYSTEM JS VERSION 2026-08-17");
         action === "follow"
             ? "unfollow"
             : "follow";
+
+    const isFollowing = followButton.dataset.action === "unfollow";
+    followButton.classList.toggle("bg-primary", !isFollowing);
+    followButton.classList.toggle("hover:bg-primary-hover", !isFollowing);
+    followButton.classList.toggle("text-secondary", !isFollowing);
+    followButton.classList.toggle("bg-secondary", isFollowing);
+    followButton.classList.toggle("hover:bg-gray-700", isFollowing);
+    followButton.classList.toggle("text-white", isFollowing);
 });

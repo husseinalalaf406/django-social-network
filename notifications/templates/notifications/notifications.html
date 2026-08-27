@@ -42,7 +42,7 @@
                            border-b border-gray-100
                            last:border-b-0
                            {% if not notification.is_read %}
-                               bg-indigo-50/50
+                               bg-primary/10
                            {% else %}
                                bg-white
                            {% endif %}
@@ -73,9 +73,7 @@
                             <div
                                 class="w-10 h-10 sm:w-11 sm:h-11
                                        rounded-full
-                                       bg-gradient-to-tr
-                                       from-indigo-500
-                                       to-violet-500
+                                       bg-secondary
                                        text-white
                                        font-bold
                                        flex items-center justify-center"
@@ -133,7 +131,7 @@
                             class="w-2.5 h-2.5
                                    shrink-0
                                    rounded-full
-                                   bg-indigo-600"
+                                   bg-primary text-secondary"
                             title="Unread"
                         ></span>
 
@@ -163,8 +161,8 @@
                        mx-auto
                        mb-4
                        rounded-full
-                       bg-indigo-50
-                       text-indigo-600
+                       bg-primary/15
+                       text-secondary dark:text-primary
                        flex items-center justify-center"
             >
 

@@ -11,9 +11,9 @@ class CommentForm(forms.ModelForm):
                 "rows": 1,
                 "placeholder": "Write a comment...",
                 "class": (
-                    "w-full rounded-full border border-gray-300 "
+                    "w-full rounded-full border border-gray-300 dark:border-primary/30 "
                     "px-4 py-2 text-sm focus:outline-none "
-                    "focus:ring-2 focus:ring-indigo-500"
+                    "focus:ring-2 focus:ring-primary"
                 ),
             }),
         }
@@ -28,9 +28,9 @@ class PostForm(forms.ModelForm):
                 "rows": 3,
                 "placeholder": "What's on your mind?",
                 "class": (
-                    "w-full rounded-lg border border-gray-300 "
+                    "w-full rounded-lg border border-gray-300 dark:border-primary/30 "
                     "px-4 py-2 text-sm focus:outline-none "
-                    "focus:ring-2 focus:ring-indigo-500"
+                    "focus:ring-2 focus:ring-primary"
                 ),
             }),
         }
