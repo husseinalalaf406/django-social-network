@@ -1,3 +1,4 @@
+```django
 {% extends "base.html" %}
 
 {% block title %}
@@ -10,6 +11,7 @@
 
     <!-- ================= PAGE HEADER ================= -->
     <div class="px-1">
+
         <h1 class="text-xl sm:text-2xl font-bold text-gray-900">
             Account Settings
         </h1>
@@ -17,6 +19,7 @@
         <p class="mt-1 text-sm text-gray-500 leading-relaxed">
             Manage your personal information, profile and password.
         </p>
+
     </div>
 
 
@@ -133,6 +136,7 @@
                         >
 
                         <div>
+
                             <p class="text-sm font-medium text-gray-900">
                                 Current profile picture
                             </p>
@@ -140,6 +144,7 @@
                             <p class="text-xs text-gray-500 mt-1">
                                 Upload a new image below to replace it.
                             </p>
+
                         </div>
 
                     </div>
@@ -154,9 +159,11 @@
 
 
                 {% if profile_form.avatar.errors %}
+
                     <div class="mt-1 text-sm text-red-600">
                         {{ profile_form.avatar.errors }}
                     </div>
+
                 {% endif %}
 
             </div>
@@ -175,9 +182,11 @@
                 {{ profile_form.bio }}
 
                 {% if profile_form.bio.errors %}
+
                     <div class="mt-1 text-sm text-red-600">
                         {{ profile_form.bio.errors }}
                     </div>
+
                 {% endif %}
 
             </div>
@@ -252,9 +261,11 @@
                 {{ password_form.old_password }}
 
                 {% if password_form.old_password.errors %}
+
                     <div class="mt-1 text-sm text-red-600">
                         {{ password_form.old_password.errors }}
                     </div>
+
                 {% endif %}
 
             </div>
@@ -273,9 +284,11 @@
                 {{ password_form.new_password1 }}
 
                 {% if password_form.new_password1.errors %}
+
                     <div class="mt-1 text-sm text-red-600">
                         {{ password_form.new_password1.errors }}
                     </div>
+
                 {% endif %}
 
             </div>
@@ -294,9 +307,11 @@
                 {{ password_form.new_password2 }}
 
                 {% if password_form.new_password2.errors %}
+
                     <div class="mt-1 text-sm text-red-600">
                         {{ password_form.new_password2.errors }}
                     </div>
+
                 {% endif %}
 
             </div>

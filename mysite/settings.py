@@ -53,11 +53,7 @@ SITE_ID = 1
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 ACCOUNT_LOGIN_METHODS = {"email"}
-ACCOUNT_SIGNUP_FIELDS = [
-    "email*",
-    "password1*",
-    "password2*",
-]
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
 ACCOUNT_EMAIL_VERIFICATION = "optional"
 ACCOUNT_LOGOUT_ON_GET = False
 
@@ -112,7 +108,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
@@ -160,3 +156,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
+ACCOUNT_FORMS = {
+    "signup": "profiles.forms.CustomSignupForm",
+}

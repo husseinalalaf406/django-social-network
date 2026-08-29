@@ -338,4 +338,69 @@ function getCookie(name) {
             closeIcon.classList.toggle("hidden");
 
         });
+
     }
+
+
+
+
+// ================= PASSWORD TOGGLE =================
+   document.querySelectorAll('[data-toggle-password]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var wrapper = btn.closest('.relative');
+            var input = wrapper.querySelector('.login-password-input');
+            var eyeOpen = btn.querySelector('[data-eye-open]');
+            var eyeClosed = btn.querySelector('[data-eye-closed]');
+            var isHidden = input.type === 'password';
+
+            input.type = isHidden ? 'text' : 'password';
+            eyeOpen.classList.toggle('hidden', isHidden);
+            eyeClosed.classList.toggle('hidden', !isHidden);
+            btn.setAttribute('aria-label', isHidden ? '{% trans "Hide password" %}' : '{% trans "Show password" %}');
+        });
+    });
+
+
+// ================= THEME TOGGLE  base =================
+  document.querySelectorAll("[data-theme-toggle]").forEach((toggle) => {
+        toggle.addEventListener("click", () => {
+            const isDark = document.documentElement.classList.toggle("dark");
+            localStorage.setItem("theme", isDark ? "dark" : "light");
+            document.querySelectorAll("[data-theme-icon]").forEach((icon) => {
+                icon.textContent = isDark ? "Light mode" : "Dark mode";
+            });
+        });
+    });
+    const initialTheme = document.documentElement.classList.contains("dark");
+    document.querySelectorAll("[data-theme-icon]").forEach((icon) => {
+        icon.textContent = initialTheme ? "Light mode" : "Dark mode";
+    });
+// ================= AVATAR PREVIEW =================
+    (function () {
+        var input = document.getElementById('{{ form.avatar.id_for_label }}');
+        if (!input) return;
+
+        var fileNameEl = document.getElementById('avatar-file-name');
+        var previewImg = document.getElementById('avatar-preview-img');
+        var uploadIcon = document.getElementById('avatar-upload-icon');
+
+        input.addEventListener('change', function () {
+            var file = input.files && input.files[0];
+            if (!file) {
+                fileNameEl.textContent = '{% trans "Choose an image" %}';
+                previewImg.classList.add('hidden');
+                uploadIcon.classList.remove('hidden');
+                return;
+            }
+
+            fileNameEl.textContent = file.name;
+            uploadIcon.classList.add('hidden');
+
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                previewImg.src = e.target.result;
+                previewImg.classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
+        });
+    })();

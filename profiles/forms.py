@@ -1,9 +1,9 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import PasswordChangeForm
-
 from .models import Profile
-
+# forms.py
+from allauth.account.forms import SignupForm
 
 User = get_user_model()
 
@@ -162,3 +162,33 @@ class StyledPasswordChangeForm(PasswordChangeForm):
             }
         )
     )
+
+
+
+class CustomSignupForm(SignupForm):
+    first_name = forms.CharField(max_length=150, label="First Name")
+    last_name = forms.CharField(max_length=150, label="Last Name")
+    username = forms.CharField(max_length=150, label="Username")
+    avatar = forms.ImageField(required=False, label="Profile Picture")
+
+    def clean_username(self):
+        username = self.cleaned_data["username"]
+        User = get_user_model()  # add: from django.contrib.auth import get_user_model
+        if User.objects.filter(username=username).exists():
+            raise forms.ValidationError("This username is already taken.")
+        return username
+
+    def save(self, request):
+        user = super().save(request)
+        user.first_name = self.cleaned_data["first_name"]
+        user.last_name = self.cleaned_data["last_name"]
+        user.username = self.cleaned_data["username"]
+        user.save()
+        avatar = self.cleaned_data.get("avatar")
+        if avatar:
+            user.profile.avatar = avatar
+            user.profile.save()
+        return user
+
+
+    

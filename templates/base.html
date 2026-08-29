@@ -130,6 +130,18 @@
                 </a>
 
 
+                <!-- ================= THEME TOGGLE (always visible) ================= -->
+
+                <button
+                    type="button"
+                    data-theme-toggle
+                    class="theme-toggle text-sm font-medium px-3 py-2 rounded-lg hover:bg-secondary/60 transition-colors cursor-pointer"
+                    aria-label="Toggle dark mode"
+                >
+                    <span data-theme-icon>Dark mode</span>
+                </button>
+
+
                 {% if request and request.user.is_authenticated %}
 
 
@@ -228,15 +240,6 @@
                     >
                         Settings
                     </a>
-
-                    <button
-                        type="button"
-                        data-theme-toggle
-                        class="theme-toggle text-sm font-medium px-3 py-2 rounded-lg hover:bg-secondary/60 transition-colors cursor-pointer"
-                        aria-label="Toggle dark mode"
-                    >
-                        <span data-theme-icon>Dark mode</span>
-                    </button>
 
 
                     <!-- New Post -->
@@ -446,6 +449,18 @@
                 </a>
 
 
+                <!-- ================= THEME TOGGLE (always visible) ================= -->
+
+                <button
+                    type="button"
+                    data-theme-toggle
+                    class="theme-toggle w-full text-left text-sm font-medium px-3 py-3 rounded-lg hover:bg-secondary/60 transition-colors cursor-pointer"
+                    aria-label="Toggle dark mode"
+                >
+                    <span data-theme-icon>Dark mode</span>
+                </button>
+
+
                 {% if request and request.user.is_authenticated %}
 
 
@@ -541,15 +556,6 @@
                     >
                         Settings
                     </a>
-
-                    <button
-                        type="button"
-                        data-theme-toggle
-                        class="theme-toggle w-full text-left text-sm font-medium px-3 py-3 rounded-lg hover:bg-secondary/60 transition-colors cursor-pointer"
-                        aria-label="Toggle dark mode"
-                    >
-                        <span data-theme-icon>Dark mode</span>
-                    </button>
 
 
                     <!-- Mobile User -->
@@ -702,13 +708,13 @@
                        shadow-xs
 
                        {% if 'error' in message.tags %}
-                           bg-red-50
-                           border-red-200
-                           text-red-800
+                           bg-red-50 dark:bg-red-950/30
+                           border-red-200 dark:border-red-900/50
+                           text-red-800 dark:text-red-400
                        {% else %}
-                           bg-accent/30
-                           border-accent
-                           text-secondary
+                           bg-accent/30 dark:bg-primary/10
+                           border-accent dark:border-primary/40
+                           text-secondary dark:text-primary
                        {% endif %}"
             >
 
@@ -721,7 +727,7 @@
 
                         <svg
                             class="w-5 h-5
-                                   text-danger
+                                   text-danger dark:text-red-400
                                    shrink-0
                                    mt-0.5 sm:mt-0"
                             fill="none"
@@ -744,7 +750,7 @@
 
                         <svg
                             class="w-5 h-5
-                                   text-secondary
+                                   text-secondary dark:text-primary
                                    shrink-0
                                    mt-0.5 sm:mt-0"
                             fill="none"
@@ -795,8 +801,6 @@
 
 </main>
 
-
-<!-- ================= NEW POST MODAL ================= -->
 
 <!-- ================= NEW POST MODAL ================= -->
 
@@ -1028,21 +1032,7 @@
 <!-- ================= MAIN JAVASCRIPT ================= -->
 
 <script src="{% static 'feed/js/main.js' %}"></script>
-<script>
-    document.querySelectorAll("[data-theme-toggle]").forEach((toggle) => {
-        toggle.addEventListener("click", () => {
-            const isDark = document.documentElement.classList.toggle("dark");
-            localStorage.setItem("theme", isDark ? "dark" : "light");
-            document.querySelectorAll("[data-theme-icon]").forEach((icon) => {
-                icon.textContent = isDark ? "Light mode" : "Dark mode";
-            });
-        });
-    });
-    const initialTheme = document.documentElement.classList.contains("dark");
-    document.querySelectorAll("[data-theme-icon]").forEach((icon) => {
-        icon.textContent = initialTheme ? "Light mode" : "Dark mode";
-    });
-</script>
+<
 
 </body>
 </html>
