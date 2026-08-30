@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import PasswordChangeForm
+from django.core.exceptions import ValidationError
+from django.core.validators import FileExtensionValidator
 from .models import Profile
 # forms.py
 from allauth.account.forms import SignupForm
@@ -27,6 +29,27 @@ INPUT_CLASS = (
     "focus:ring-gray-900 "
     "focus:border-transparent"
 )
+
+
+# ============================================================
+# Shared Avatar Validation
+# ============================================================
+
+MAX_AVATAR_SIZE_MB = 5
+ALLOWED_AVATAR_EXTENSIONS = ["jpg", "jpeg", "png", "gif", "webp"]
+
+
+def validate_avatar_size(file):
+    if file.size > MAX_AVATAR_SIZE_MB * 1024 * 1024:
+        raise ValidationError(
+            f"Image file too large. Maximum size is {MAX_AVATAR_SIZE_MB}MB."
+        )
+
+
+avatar_validators = [
+    FileExtensionValidator(allowed_extensions=ALLOWED_AVATAR_EXTENSIONS),
+    validate_avatar_size,
+]
 
 
 # ============================================================
@@ -78,6 +101,36 @@ class AccountUpdateForm(forms.ModelForm):
 
 class ProfileUpdateForm(forms.ModelForm):
 
+    avatar = forms.ImageField(
+        required=False,
+        validators=avatar_validators,
+        widget=forms.ClearableFileInput(
+            attrs={
+                "class": (
+                    "block w-full "
+                    "text-sm text-gray-600 "
+                    "cursor-pointer "
+                    "border border-gray-200 "
+                    "rounded-lg "
+                    "bg-gray-50 "
+                    "p-2 "
+                    "file:mr-4 "
+                    "file:py-2 "
+                    "file:px-4 "
+                    "file:rounded-lg "
+                    "file:border-0 "
+                    "file:text-sm "
+                    "file:font-semibold "
+                    "file:bg-gray-100 "
+                    "file:text-gray-700 "
+                    "hover:file:bg-gray-200 "
+                    "focus:outline-none"
+                ),
+                "accept": "image/*",
+            }
+        ),
+    )
+
     class Meta:
         model = Profile
 
@@ -87,32 +140,6 @@ class ProfileUpdateForm(forms.ModelForm):
         ]
 
         widgets = {
-
-            "avatar": forms.ClearableFileInput(
-                attrs={
-                    "class": (
-                        "block w-full "
-                        "text-sm text-gray-600 "
-                        "cursor-pointer "
-                        "border border-gray-200 "
-                        "rounded-lg "
-                        "bg-gray-50 "
-                        "p-2 "
-                        "file:mr-4 "
-                        "file:py-2 "
-                        "file:px-4 "
-                        "file:rounded-lg "
-                        "file:border-0 "
-                        "file:text-sm "
-                        "file:font-semibold "
-                        "file:bg-gray-100 "
-                        "file:text-gray-700 "
-                        "hover:file:bg-gray-200 "
-                        "focus:outline-none"
-                    ),
-                    "accept": "image/*",
-                }
-            ),
 
             "bio": forms.Textarea(
                 attrs={
@@ -164,16 +191,18 @@ class StyledPasswordChangeForm(PasswordChangeForm):
     )
 
 
-
 class CustomSignupForm(SignupForm):
     first_name = forms.CharField(max_length=150, label="First Name")
     last_name = forms.CharField(max_length=150, label="Last Name")
     username = forms.CharField(max_length=150, label="Username")
-    avatar = forms.ImageField(required=False, label="Profile Picture")
+    avatar = forms.ImageField(
+        required=False,
+        label="Profile Picture",
+        validators=avatar_validators,
+    )
 
     def clean_username(self):
         username = self.cleaned_data["username"]
-        User = get_user_model()  # add: from django.contrib.auth import get_user_model
         if User.objects.filter(username=username).exists():
             raise forms.ValidationError("This username is already taken.")
         return username
@@ -189,6 +218,3 @@ class CustomSignupForm(SignupForm):
             user.profile.avatar = avatar
             user.profile.save()
         return user
-
-
-    

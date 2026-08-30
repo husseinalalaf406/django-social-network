@@ -1,26 +1,19 @@
-from django.contrib.auth import get_user_model
-from django.views.generic import DetailView
+from django.contrib.auth import get_user_model, update_session_auth_hash
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
-from django.views.generic import ListView
+from django.views.generic import DetailView, ListView
 from notifications.models import Notification
 from followers.models import Follower
 from feed.models import Post
-from django.contrib.auth import update_session_auth_hash
 from .forms import (
     AccountUpdateForm,
     ProfileUpdateForm,
     StyledPasswordChangeForm,
 )
-from django.contrib.auth import get_user_model
-from django.views.generic import ListView
 
-User = get_user_model()
-from django.shortcuts import render, redirect
-from django.contrib import messages
-
-from .forms import AccountUpdateForm, ProfileUpdateForm
 User = get_user_model()
 
 
@@ -65,9 +58,6 @@ class ProfileDetailView(DetailView):
         context["liked_posts"] = liked_posts
         return context
 
-   
-
-
 
 class FollowView(LoginRequiredMixin, View):
 
@@ -107,24 +97,24 @@ class FollowView(LoginRequiredMixin, View):
 
         if action == "follow":
 
-         follower, created = Follower.objects.get_or_create(
-        followed_by=request.user,
-        following=other_user,
-    )
+            follower, created = Follower.objects.get_or_create(
+                followed_by=request.user,
+                following=other_user,
+            )
 
-         if created:
-          Notification.objects.create(
-            recipient=other_user,
-            sender=request.user,
-            notification_type=Notification.FOLLOW,
-        )
+            if created:
+                Notification.objects.create(
+                    recipient=other_user,
+                    sender=request.user,
+                    notification_type=Notification.FOLLOW,
+                )
 
-          return JsonResponse(
-        {
-            "success": True,
-            "wording": "Unfollow",
-        }
-    )
+            return JsonResponse(
+                {
+                    "success": True,
+                    "wording": "Unfollow",
+                }
+            )
 
         elif action == "unfollow":
 
@@ -239,22 +229,7 @@ class AccountSettingsView(LoginRequiredMixin, View):
             request,
             self.template_name,
             context
-        )      
-
-class FollowersListView(ListView):
-
-    template_name = "profiles/followers.html"
-    context_object_name = "followers"
-
-    def get_queryset(self):
-        user = User.objects.get(
-            username=self.kwargs["username"]
         )
-
-        return user.followers.select_related("followed_by")
-
-
-
 
 
 class FollowersListView(LoginRequiredMixin, ListView):
@@ -263,9 +238,7 @@ class FollowersListView(LoginRequiredMixin, ListView):
     context_object_name = "followers"
 
     def get_queryset(self):
-        user = User.objects.get(
-            username=self.kwargs["username"]
-        )
+        user = get_object_or_404(User, username=self.kwargs["username"])
 
         return user.followers.select_related("followed_by")
 
@@ -276,10 +249,6 @@ class FollowingListView(LoginRequiredMixin, ListView):
     context_object_name = "following"
 
     def get_queryset(self):
-        user = User.objects.get(
-            username=self.kwargs["username"]
-        )
+        user = get_object_or_404(User, username=self.kwargs["username"])
 
         return user.following.select_related("following")
-
-          

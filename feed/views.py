@@ -81,16 +81,9 @@ class MyFollowingView(LoginRequiredMixin, TemplateView):
         context["liked_posts"] = liked_posts
         return context
 
-  
-
-
-
-
 
 # 2. Post Creation View (Handles form submission)
 class CreateNewPost(LoginRequiredMixin, CreateView):
-
-
 
     model = Post
     fields = ["text", "image"] 
@@ -105,7 +98,7 @@ class CreateNewPost(LoginRequiredMixin, CreateView):
 class LikePostView(LoginRequiredMixin, View):
      def post(self, request, post_id):
 
-        post = Post.objects.get(id=post_id)
+        post = get_object_or_404(Post, id=post_id)
 
         like, created = Like.objects.get_or_create(
             user=request.user,
@@ -127,23 +120,10 @@ class LikePostView(LoginRequiredMixin, View):
         return JsonResponse({
             "liked": liked,
             "likes_count": post.likes.count()
-        })   
-        context = super().get_context_data(**kwargs)
-        posts = context['posts']  # whatever your post list is called
-
-        if self.request.user.is_authenticated:
-         liked_posts = Like.objects.filter(
-            user=self.request.user,
-            post__in=posts
-        ).values_list('post_id', flat=True)
-        else:
-          liked_posts = []
-
-        context['liked_posts'] = liked_posts
-        return context 
+        })
 
 
-class CommentCreateView(CreateView):
+class CommentCreateView(LoginRequiredMixin, CreateView):
 
     model = Comment
     form_class = CommentForm
@@ -186,4 +166,3 @@ class CommentCreateView(CreateView):
 
     def get_success_url(self):
         return reverse_lazy("feed:index").__str__() + f"#comments-modal-{self.object.post.id}"
-

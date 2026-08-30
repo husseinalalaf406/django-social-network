@@ -1,5 +1,22 @@
 from django.conf import settings
+from django.core.exceptions import ValidationError
+from django.core.validators import FileExtensionValidator
 from django.db import models
+
+
+# ============================================================
+# Post Image Validation
+# ============================================================
+
+MAX_POST_IMAGE_SIZE_MB = 10
+ALLOWED_POST_IMAGE_EXTENSIONS = ["jpg", "jpeg", "png", "gif", "webp"]
+
+
+def validate_post_image_size(file):
+    if file.size > MAX_POST_IMAGE_SIZE_MB * 1024 * 1024:
+        raise ValidationError(
+            f"Image file too large. Maximum size is {MAX_POST_IMAGE_SIZE_MB}MB."
+        )
 
 
 class Post(models.Model):
@@ -11,14 +28,21 @@ class Post(models.Model):
         null=True,
         blank=True,
     )
-    image = models.ImageField(upload_to="post/", null=True, blank=True)
+    image = models.ImageField(
+        upload_to="post/",
+        null=True,
+        blank=True,
+        validators=[
+            FileExtensionValidator(allowed_extensions=ALLOWED_POST_IMAGE_EXTENSIONS),
+            validate_post_image_size,
+        ],
+    )
     text = models.TextField(
-    blank=True
-
-
+        blank=True,
+        max_length=5000,
     )
 
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField(auto_now_add=True, db_index=True)
 
     def __str__(self):
         author_name = self.author.username if self.author else "Anonymous"
@@ -67,9 +91,9 @@ class Comment(models.Model):
         related_name="comments",
     )
 
-    text = models.TextField()
+    text = models.TextField(max_length=1000)
 
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
 
     def __str__(self):
-        return f"{self.user.username}: {self.text[:30]}"   
+        return f"{self.user.username}: {self.text[:30]}"
