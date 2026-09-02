@@ -73,7 +73,9 @@ INSTALLED_APPS = [
     "profiles",
     "followers",
     "notifications",
+    "cloudinary",
 
+"cloudinary_storage",
 ]
 SITE_ID = 1
 LOGIN_REDIRECT_URL = "/"
@@ -169,8 +171,6 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
 # ================= MEDIA FILES CONFIGURATION =================
 # Public URL prefix for user-uploaded files
 MEDIA_URL = '/media/'
@@ -181,3 +181,26 @@ MEDIA_ROOT = BASE_DIR / 'media'
 ACCOUNT_FORMS = {
     "signup": "profiles.forms.CustomSignupForm",
 }
+
+# ================= CLOUDINARY CONFIGURATION =================
+
+CLOUDINARY_CLOUD_NAME = os.getenv("CLOUDINARY_CLOUD_NAME")
+CLOUDINARY_API_KEY = os.getenv("CLOUDINARY_API_KEY")
+CLOUDINARY_API_SECRET = os.getenv("CLOUDINARY_API_SECRET")
+
+# ================= CLOUDINARY STORAGE =================
+
+STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
+
+
+
+
+
