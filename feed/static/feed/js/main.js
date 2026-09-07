@@ -4,7 +4,6 @@
 
 document.addEventListener("click", function (event) {
 
-    console.log("CLICK DETECTED");
 
     const button = event.target.closest(".js-toggle-modal");
 
@@ -12,7 +11,6 @@ document.addEventListener("click", function (event) {
         return;
     }
 
-    console.log("TOGGLE BUTTON FOUND");
 
     event.preventDefault();
 

@@ -19,8 +19,6 @@
 
 
     <!-- ================= POSTS LOOP ================= -->
-    {% for post in posts %}
-
         <article
             class="bg-white rounded-xl sm:rounded-2xl border border-gray-200/80
                    shadow-xs overflow-hidden
@@ -398,13 +396,17 @@
 
   <!-- Single Avatar with initial badge overlay -->
     <a href="/profiles/{{ comment.user.username }}/" class="relative shrink-0 block">
-  <img
-                            src="{{ comment.user.profile.avatar.url }}"
-                            class="w-9 h-9 sm:w-10 sm:h-10
-                                   shrink-0
-                                   rounded-full object-cover
-                                   border border-gray-200/80 shadow-xs"
-                        />
+  {% if comment.user.profile.avatar %}
+      <img
+          src="{{ comment.user.profile.avatar.url }}"
+          alt="{{ comment.user.username }}"
+          class="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-full object-cover border border-gray-200/80 shadow-xs"
+      />
+  {% else %}
+      <span class="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-full bg-secondary text-white font-bold flex items-center justify-center">
+          {{ comment.user.username|slice:":1"|upper }}
+      </span>
+  {% endif %}
 
   </a>
 
@@ -425,9 +427,10 @@
   </div>
 </div>
 
+                    {% endfor %}
+
                         </div>
 
-                    {% endfor %}
 
                 </div>
 
@@ -539,98 +542,5 @@
 </div>
 
 
-
-
-
-
-
-    <!-- ================= EMPTY STATE ================= -->
-    {% empty %}
-
-        <div
-            class="bg-white
-                   rounded-xl sm:rounded-2xl
-                   border border-gray-200/80
-                   p-6 sm:p-8
-                   text-center
-                   shadow-xs"
-        >
-
-            <div
-                class="w-12 h-12
-                       bg-primary/15
-                       text-secondary dark:text-primary
-                       rounded-full
-                       flex items-center justify-center
-                       mx-auto mb-3"
-            >
-                <svg
-                    class="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    stroke-width="2"
-                >
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"
-                    />
-                </svg>
-            </div>
-
-            <h3 class="text-base font-bold text-gray-900 mb-1">
-                No posts found
-            </h3>
-
-            <p class="text-xs text-gray-500 max-w-sm mx-auto mb-5">
-                Be the first person to share something with the community today!
-            </p>
-
-
-            {% if request.user.is_authenticated %}
-
-                <button
-                    type="button"
-                    onclick="document.getElementById('{{ new_post_modal_id }}').showModal()"
-                    class="bg-primary
-                           hover:bg-primary-hover
-                           text-secondary
-                           text-xs
-                           font-semibold
-                           px-4 py-2
-                           rounded-xl
-                           shadow-xs
-                           transition
-                           cursor-pointer"
-                >
-                    Create First Post
-                </button>
-
-            {% else %}
-
-                <a
-                    href="{% url 'account_login' %}"
-                    class="inline-block
-                           bg-primary
-                           hover:bg-primary-hover
-                           text-secondary
-                           text-xs
-                           font-semibold
-                           px-4 py-2
-                           rounded-xl
-                           shadow-xs
-                           transition"
-                >
-                    Log in to Post
-                </a>
-
-            {% endif %}
-
-        </div>
-
-    {% endfor %}
-
-</div>
   
 <script src="{% static 'feed/js/main.js' %}"></script>

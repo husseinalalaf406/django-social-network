@@ -113,7 +113,9 @@
 
         {% with posts=profile_user.posts.all %}
             {% if posts %}
+                {% for post in posts %}
                     {% include "feed/includes/post.html" with post=post %}
+                {% endfor %}
             {% else %}
                 <p class="text-gray-500">
                     No posts yet.

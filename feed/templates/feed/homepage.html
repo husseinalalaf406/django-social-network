@@ -5,7 +5,11 @@
 {% endblock %}
 {% block content %}
 
-    {% include "feed/includes/post.html" with post=post %}
+    {% for post in posts %}
+        {% include "feed/includes/post.html" with post=post %}
+    {% empty %}
+        <p class="text-center text-gray-500 py-10">No posts yet.</p>
+    {% endfor %}
 
 
 {% endblock %}

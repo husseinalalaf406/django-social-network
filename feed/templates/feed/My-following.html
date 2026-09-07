@@ -4,7 +4,9 @@
 {% endblock %}
 {% block content %}
 {% if posts %}
-    {% include "feed/includes/post.html" with post=post %}
+    {% for post in posts %}
+        {% include "feed/includes/post.html" with post=post %}
+    {% endfor %}
 {% else %}
 <div class="text-center py-10 sm:py-12 px-4">
 

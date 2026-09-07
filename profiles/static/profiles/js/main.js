@@ -17,7 +17,6 @@ function getCookie(name) {
 
 // Follow / Unfollow
 document.addEventListener("click", async function (event) {
-console.log("FOLLOW SYSTEM JS VERSION 2026-08-17");
     const followButton = event.target.closest(".js-follow");
 
     if (!followButton) {
@@ -45,8 +44,6 @@ console.log("FOLLOW SYSTEM JS VERSION 2026-08-17");
     });
 
     const data = await response.json();
-
-    console.log(data);
 
     if (!response.ok || !data.success) {
         console.error(data.error);
