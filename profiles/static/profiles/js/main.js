@@ -67,17 +67,3 @@ document.addEventListener("click", async function (event) {
     followButton.classList.toggle("hover:bg-gray-700", isFollowing);
     followButton.classList.toggle("text-white", isFollowing);
 });
-
-    document.querySelectorAll("[data-theme-toggle]").forEach((toggle) => {
-        toggle.addEventListener("click", () => {
-            const isDark = document.documentElement.classList.toggle("dark");
-            localStorage.setItem("theme", isDark ? "dark" : "light");
-            document.querySelectorAll("[data-theme-icon]").forEach((icon) => {
-                icon.textContent = isDark ? "Light mode" : "Dark mode";
-            });
-        });
-    });
-    const initialTheme = document.documentElement.classList.contains("dark");
-    document.querySelectorAll("[data-theme-icon]").forEach((icon) => {
-        icon.textContent = initialTheme ? "Light mode" : "Dark mode";
-    });
