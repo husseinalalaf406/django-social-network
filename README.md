@@ -69,7 +69,6 @@ gunicorn mysite.wsgi:application
 Set the production environment variables in Render before deploying. The build script installs dependencies, collects static files, and runs migrations.
 
 ## Security considerations
-
 Production requires an environment-provided secret key and database URL, validates allowed hosts, trusts Render's forwarded HTTPS header, and enables secure cookies and HSTS. Uploaded avatars and post images retain extension and size validation. Django template autoescaping remains enabled.
 
 ## Current limitations and future improvements
